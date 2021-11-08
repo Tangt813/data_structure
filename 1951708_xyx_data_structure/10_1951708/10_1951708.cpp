@@ -5,7 +5,7 @@
 using namespace std;
 int compare_step = 0;
 int exchange_step = 0;
-void BubbleSort(int* number, int num)
+void bubbleSort(int* number, int num)
 {
 	compare_step = 0;
 	exchange_step = 0;//置0
@@ -33,7 +33,7 @@ void BubbleSort(int* number, int num)
 	cout << "冒泡排序交换次数:       " << exchange_step << endl;
 }
 
-void QuickSort(int* number, int left, int right)
+void quickSort(int* number, int left, int right)
 {
 	if (left > right)
 		return;
@@ -67,12 +67,12 @@ void QuickSort(int* number, int left, int right)
 	number[left] = number[i];
 	number[i] = temp;//基准数放中间
 	exchange_step++;
-	QuickSort(number, left, i - 1);
-	QuickSort(number, i + 1, right);
+	quickSort(number, left, i - 1);
+	quickSort(number, i + 1, right);
 	return;
 }
 
-void ChooseSort(int number[], int num)
+void chooseSort(int number[], int num)
 {
 	compare_step = 0;
 	exchange_step = 0;//置0
@@ -107,7 +107,7 @@ void ChooseSort(int number[], int num)
 	cout << "选择排序交换次数:       " << exchange_step << endl;
 }
 
-void NumInsert(int* number, int begin, int end)//将begin到end-1的元素后移以为，end的元素插入到begin处
+void numInsert(int* number, int begin, int end)//将begin到end-1的元素后移一位，end的元素插入到begin处
 {
 	int num = number[end];
 	for (; end > begin; end--)
@@ -129,7 +129,7 @@ void insert(int* number, int num)
 			compare_step++;
 			if (number[t] > number[i])
 			{
-				NumInsert(number, t, i);//插入
+				numInsert(number, t, i);//插入
 				break;
 			}
 		}
@@ -150,7 +150,8 @@ void swap(int* number, int a, int b)
 	number[b] = number[a] - number[b];
 	number[a] = number[a] - number[b];
 }
-void Shill(int* number, int num)
+
+void shill(int* number, int num)
 {
 	exchange_step = 0;
 	compare_step = 0;
@@ -184,7 +185,7 @@ void Shill(int* number, int num)
 	cout << "希尔排序交换次数:       " << exchange_step << endl;
 
 }
-void HeapAdjust(int* number, int i, int length)
+void heapAdjust(int* number, int i, int length)
 {
 	int temp = number[i];//取出当前元素
 	for (int k = 2 * i + 1; k < length; k = 2 * k + 1)
@@ -206,24 +207,24 @@ void HeapAdjust(int* number, int i, int length)
 	}
 	number[i] = temp;
 }
-void HeapSwap(int* number, int i, int j)
+void heapSwap(int* number, int i, int j)
 {
 	exchange_step++;
 	int temp = number[j];
 	number[j] = number[i];
 	number[i] = temp;
 }
-void HeapSort(int* number, int num)
+void heapSort(int* number, int num)
 {
 	int time1 = clock();
 	for (int i = num / 2 - 1; i >= 0; i--)
 	{
-		HeapAdjust(number, i, num);
+		heapAdjust(number, i, num);
 	}//建立堆
 	for (int j = num - 1; j >= 0; j--)
 	{
-		HeapSwap(number, 0, j);
-		HeapAdjust(number, 0, j);
+		heapSwap(number, 0, j);
+		heapAdjust(number, 0, j);
 	}
 	int time2 = clock();
 	for (int i = 0; i < num; i++)
@@ -233,14 +234,14 @@ void HeapSort(int* number, int num)
 	cout << "堆排序比较次数:       " << compare_step << endl;
 	cout << "堆排序交换次数:       " << exchange_step << endl;
 }
-void Merge(int* number, int* list, int low, int high)
+void merge(int* number, int* list, int low, int high)
 {
 	int s1 = low, s2 = high, t = low, k;
 	if (low >= high)
 		return;
 	int mid = (low + high) / 2;
-	Merge(number, list, low, mid);
-	Merge(number, list, mid + 1, high);
+	merge(number, list, low, mid);
+	merge(number, list, mid + 1, high);
 	for (k = low; k <= mid; k++) {
 		list[k] = number[k];
 	}
@@ -258,11 +259,11 @@ void Merge(int* number, int* list, int low, int high)
 	}
 	return;
 }
-void Mergesort(int* number, int num)
+void mergesort(int* number, int num)
 {
 	int* list = new int[100000];
 	int time1 = clock();
-	Merge(number, list, 0, num - 1);
+	merge(number, list, 0, num - 1);
 	int time2 = clock();
 	for (int i = 0; i < num; i++)
 		cout << number[i] << " ";
@@ -272,7 +273,7 @@ void Mergesort(int* number, int num)
 	cout << "归并排序交换次数:      " << exchange_step << endl;
 	delete[]list;
 }
-int maxbit(int* number, int num) //求数据的最大位数
+int maxBit(int* number, int num) //求数据的最大位数
 {
 	int maxData = number[0];              ///最大数
 	/// 先求出最大数，再求其位数，这样有原先依次每个数判断其位数，稍微优化点。
@@ -291,10 +292,10 @@ int maxbit(int* number, int num) //求数据的最大位数
 	return d;
 
 }
-void radixsort(int number[], int num) //基数排序
+void radixSort(int number[], int num) //基数排序
 {
 	int time1 = clock();
-	int d = maxbit(number, num);//求最高位数
+	int d = maxBit(number, num);//求最高位数
 	int* tmp = new int[num];
 	int* count = new int[10]; //计数器
 	int i, j, k;
@@ -391,11 +392,11 @@ int main()
 		{
 		case 1:
 			copy(true_number, number, num);
-			BubbleSort(number, num);
+			bubbleSort(number, num);
 			break;
 		case 2:
 			copy(true_number, number, num);
-			ChooseSort(number, num);
+			chooseSort(number, num);
 			break;
 		case 3:
 			copy(true_number, number, num);
@@ -404,14 +405,14 @@ int main()
 			break;
 		case 4:
 			copy(true_number, number, num);
-			Shill(number, num);
+			shill(number, num);
 			break;
 		case 5:
 			compare_step = 0;
 			exchange_step = 0;
 			copy(true_number, number, num);
 			time1 = clock();
-			QuickSort(number, 0, num - 1);
+			quickSort(number, 0, num - 1);
 			time2 = clock();
 			/*for (int i = 0; i < num; i++)
 				cout << number[i] << " ";
@@ -424,17 +425,17 @@ int main()
 			compare_step = 0;
 			exchange_step = 0;
 			copy(true_number, number, num);
-			HeapSort(number, num);
+			heapSort(number, num);
 			break;
 		case 7:
 			compare_step = 0;
 			exchange_step = 0;
 			copy(true_number, number, num);
-			Mergesort(number, num);
+			mergesort(number, num);
 			break;
 		case 8:
 			copy(true_number, number, num);
-			radixsort(number, num);
+			radixSort(number, num);
 			break;
 		case 9:
 			return 0;
